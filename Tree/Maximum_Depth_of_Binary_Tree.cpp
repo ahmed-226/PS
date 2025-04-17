@@ -1,4 +1,5 @@
 #include<bits/stdc++.h>
+using namespace std;
 
 // Definition for a binary tree node.
 struct TreeNode {
@@ -16,9 +17,15 @@ struct TreeNode {
     
     public:
         int maxDepth(TreeNode* root) {
-            maxDepthVal = 0; 
-            calcDepth(root, 1); 
-            return maxDepthVal;
+            // maxDepthVal = 0; 
+            // calcDepth(root, 1); 
+            // return maxDepthVal;
+
+            if(root==nullptr){
+                return 0;
+            }
+            return 1+ max(maxDepth(root->left),maxDepth(root->right));
+
         }
     
         void calcDepth(TreeNode* root, int counter) {
