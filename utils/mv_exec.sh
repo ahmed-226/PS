@@ -1,16 +1,18 @@
 #!/bin/bash
 
-OUT_DIR="EXE"
+ROOT_DIR=$(pwd)
 
-if [ ! -d "$OUT_DIR" ]; then
-    echo "Error: Please run this script from the root directory of the project."
-    exit 1
-fi
+EXE_DIR="$ROOT_DIR/EXE"
+mkdir -p "$EXE_DIR"
 
-mkdir -p $OUT_DIR
+find "$ROOT_DIR" -type f -name "*.cpp" | while read -r cpp_file; do
+    filename=$(basename "$cpp_file" .cpp)
+    
+    g++ "$cpp_file" -o "$EXE_DIR/$filename.exe"
 
-for dir in */; do
-    find "$dir" -type f -name "*.exe" -exec mv {} $OUT_DIR \;
+    if [ $? -eq 0 ]; then
+        echo "✅ Compiled: $cpp_file → $EXE_DIR/$filename.exe"
+    else
+        echo "❌ Failed to compile: $cpp_file"
+    fi
 done
-
-echo "All .exe files have been moved to the $OUT_DIR directory."
